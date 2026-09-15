@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tree of Many Hands · Harsh Sanjay Tambekar</title>
+<!--
+  PROJECT : Fusion Artwork — Warli × Kalamkari × Madhubani
+  AUTHOR  : Harsh Sanjay Tambekar
+  REG NO. : RA2411030010223
+  COURSE  : Indian Art Forms
+-->
+<style>
+  :root{
+    --bg:#0f172a;
+    --panel:#1e293b;
+    --panel-2:#334155;
+    --line:#475569;
+    --gold:#38bdf8;
+    --gold-2:#7dd3fc;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(56, 189, 248, .08), transparent 60%),
+      radial-gradient(900px 500px at 0% 10%, rgba(99, 102, 241, .08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:"Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.6; min-height:100vh;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  header.hero{text-align:center;padding:56px 20px 20px}
+  .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:var(--gold);margin-bottom:14px}
+  h1.title{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.8rem,4.4vw,3.1rem);font-weight:600;line-height:1.12;color:var(--gold-2)}
+  .subtitle{color:var(--muted);max-width:700px;margin:14px auto 0;font-size:1.02rem}
+  .student-badge{display:inline-flex;gap:10px;align-items:center;margin-top:20px;background:var(--panel);
+    border:1px solid var(--line);padding:10px 18px;border-radius:999px;font-size:.9rem;color:var(--muted)}
+  .student-badge b{color:var(--gold-2);font-weight:600}
+  .student-badge .sep{opacity:.4}
+
+  /* ---------- ARTWORK ---------- */
+  .gallery{padding:14px 0 4px}
+  .art-frame{position:relative;max-width:600px;margin:0 auto;aspect-ratio:1000 / 1300;
+    box-shadow:0 30px 80px rgba(0,0,0,.55);border-radius:8px;overflow:hidden}
+  .art-frame svg{width:100%;height:100%;display:block}
+  .art-frame .spots{position:absolute;inset:0}
+  .spot{position:absolute;transform:translate(-50%,-50%);background:none;border:none;cursor:pointer;padding:0;z-index:5}
+  .spot .dot{display:block;width:11px;height:11px;border-radius:50%;background:var(--sc,#e0b45c);
+    border:2px solid rgba(10,12,16,.7);animation:spulse 2.6s ease-in-out infinite}
+  .spot:hover .dot{transform:scale(1.35);animation:none}
+  .spot .tip{position:absolute;left:12px;top:0;transform:translateY(-50%);white-space:nowrap;
+    background:rgba(10,12,16,.96);border:1px solid var(--sc,#e0b45c);color:#eee;font-size:.7rem;
+    padding:3px 10px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .15s}
+  .spot:hover .tip{opacity:1}
+  .spot.off{opacity:.12;pointer-events:none}
+  @keyframes spulse{0%,100%{box-shadow:0 0 0 3px rgba(0,0,0,.35),0 0 5px var(--sc,#e0b45c)}
+    50%{box-shadow:0 0 0 6px rgba(0,0,0,.2),0 0 12px var(--sc,#e0b45c)}}
+
+  .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 2px}
+  .tbtn{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);
+    color:var(--muted);border-radius:999px;padding:8px 16px;font-size:.85rem;cursor:pointer;transition:.2s;user-select:none}
+  .tbtn .swatch{width:12px;height:12px;border-radius:50%;background:var(--sc)}
+  .tbtn .sw{width:34px;height:18px;border-radius:999px;background:#333;position:relative;transition:.2s}
+  .tbtn .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#888;transition:.2s}
+  .tbtn.on{color:var(--text);border-color:var(--sc)}
+  .tbtn.on .sw{background:var(--sc)}
+  .tbtn.on .sw::after{left:18px;background:#fff}
+  .tbtn#btnAll{--sc:#e0b45c}
+  .hint{color:var(--muted);font-size:.82rem;text-align:center;margin:8px 0 2px}
+  .hint b{color:var(--gold-2)}
+
+  /* ---------- SECTIONS ---------- */
+  section{max-width:900px;margin:0 auto}
+  .sec-head{font-family:Georgia,serif;color:var(--gold-2);font-size:1.5rem;font-weight:600;margin:40px 0 16px}
+  .statement{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+    border-radius:var(--radius);padding:22px 24px;font-size:.98rem;color:#d8d3c8}
+  .statement p{margin-bottom:12px}
+  .statement p:last-child{margin-bottom:0}
+  .statement .sig{color:var(--gold);font-family:Georgia,serif;font-style:italic;margin-top:4px}
+
+  .styles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+  .style-card{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 20px;border-top:3px solid var(--sc,#e0b45c)}
+  .style-card h3{font-family:Georgia,serif;color:var(--text);font-size:1.12rem;margin-bottom:2px}
+  .style-card .where{color:var(--sc);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+  .style-card p{color:var(--muted);font-size:.88rem}
+
+  .emap{display:flex;flex-direction:column;gap:10px}
+  .emap .row{display:flex;gap:12px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:12px 16px;transition:.25s}
+  .emap .row.flash{border-color:var(--gold);background:#242331;box-shadow:0 0 0 2px rgba(224,180,92,.35)}
+  .emap .chip{flex:0 0 auto;font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;
+    border-radius:999px;border:1px solid var(--sc);color:var(--sc);margin-top:2px}
+  .emap .row b{color:var(--text);font-weight:600}
+  .emap .row p{color:var(--muted);font-size:.87rem}
+  .emap .row h4{font-family:Georgia,serif;color:var(--gold-2);font-weight:600;font-size:1.02rem}
+
+  footer{border-top:1px solid var(--line);margin-top:50px;padding:30px 20px 46px;text-align:center;color:var(--muted);font-size:.88rem}
+  footer .name{color:var(--gold-2);font-weight:600}
+  footer .foot-art{font-family:Georgia,serif;color:var(--gold);font-size:1.05rem;margin-bottom:6px}
+
+  svg.no-warli .s-warli{display:none}
+  svg.no-kalamkari .s-kalamkari{display:none}
+  svg.no-madhubani .s-madhubani{display:none}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Indian Art Forms · Fusion Painting</div>
+  <h1 class="title">The Tree of Many Hands</h1>
+  <p class="subtitle">An original artwork that fuses three regional painting traditions — the geometric dance of
+  <b>Warli</b>, the fine-pen intricacy of <b>Kalamkari</b>, and the bold double-lined colour of <b>Madhubani</b> —
+  into a single tree of life.</p>
+  <div class="student-badge">
+    <span>Artwork by</span> <b>Harsh Sanjay Tambekar</b>
+    <span class="sep">·</span> <span>Reg. No. <b>RA2411030010223</b></span>
+  </div>
+</header>
+
+<div class="wrap gallery">
+  <div class="art-frame">
+    <svg id="art" viewBox="0 0 1000 1300" xmlns="http://www.w3.org/2000/svg" role="img"
+         aria-label="A fusion painting of a tree of life combining Warli, Kalamkari and Madhubani styles">
+      <defs>
+        <!-- Madhubani border band pattern -->
+        <pattern id="mband" width="28" height="28" patternUnits="userSpaceOnUse">
+          <rect width="28" height="28" fill="#c22f2a"/>
+          <path d="M14 5 L23 23 L5 23 Z" fill="#1c1c1c"/>
+          <path d="M14 12 L18.5 23 L9.5 23 Z" fill="#e9b23a"/>
+          <circle cx="2" cy="2" r="2" fill="#e9b23a"/>
+          <circle cx="26" cy="2" r="2" fill="#e9b23a"/>
+          <circle cx="2" cy="26" r="2" fill="#f4e9cf"/>
+          <circle cx="26" cy="26" r="2" fill="#f4e9cf"/>
+        </pattern>
+
+        <!-- Kalamkari corner flourish -->
+        <g id="kcorner" stroke="#3a2a1a" fill="none" stroke-width="1.8">
+          <path d="M0 60 C 6 34 22 16 46 6"/>
+          <path d="M18 42 C 14 26 22 12 38 8"/>
+          <path d="M46 6 C 50 2 56 2 58 6 C 56 12 50 12 46 6 Z" fill="#a33b2e" stroke="#3a2a1a" stroke-width="1.4"/>
+          <circle cx="10" cy="50" r="2.2" fill="#3a2a1a"/>
+          <circle cx="30" cy="30" r="1.6" fill="#3a2a1a"/>
+        </g>
+
+        <!-- Kalamkari cloud -->
+        <g id="kcloud" stroke="#3a2a1a" fill="none">
+          <path d="M0 0 H70" stroke-width="2"/>
+          <path d="M8 0 A10 10 0 0 1 28 0 A12 12 0 0 1 52 0 A8 8 0 0 1 68 0" stroke-width="2"/>
+          <path d="M18 -5 q4 -6 8 0" stroke-width="1.2"/>
+          <path d="M40 -7 q4 -6 8 0" stroke-width="1.2"/>
+        </g>
+
+        <!-- Kalamkari flying bird -->
+        <g id="kbird" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round">
+          <path d="M-14 -6 Q-4 -16 0 -2 Q4 -16 14 -6"/>
+        </g>
+
+        <!-- Kalamkari paisley leaf -->
+        <g id="leaf-k">
+          <path d="M0 0 C 10 -15, 27 -13, 31 2 C 27 17, 8 16, 0 0 Z" fill="none" stroke="#3a2a1a" stroke-width="2.2"/>
+          <path d="M4 -2 C 12 0, 20 2, 26 3" stroke="#3a2a1a" stroke-width="1.3" fill="none"/>
+          <circle cx="14" cy="8" r="1.2" fill="#3a2a1a"/>
+          <circle cx="20" cy="11" r="1" fill="#3a2a1a"/>
+        </g>
+
+        <!-- Kalamkari lotus -->
+        <g id="lotus-k" fill="#a33b2e" stroke="#3a2a1a" stroke-width="1.6">
+          <path d="M0 0 C -16 -2 -24 -16 -20 -30 C -10 -26 -4 -14 0 0 Z"/>
+          <path d="M0 0 C 16 -2 24 -16 20 -30 C 10 -26 4 -14 0 0 Z"/>
+          <path d="M0 0 C -6 -8 -2 -20 0 -28 C 2 -20 6 -8 0 0 Z" fill="#d9a441"/>
+          <path d="M-22 -2 C -30 2 -34 10 -32 16" fill="none"/>
+          <path d="M22 -2 C 30 2 34 10 32 16" fill="none"/>
+        </g>
+
+        <!-- Kalamkari peacock -->
+        <g id="peacock-k">
+          <g fill="#a33b2e" stroke="#3a2a1a" stroke-width="1.5">
+            <ellipse cx="-40" cy="-18" rx="11" ry="16" transform="rotate(-24 -40 -18)"/>
+            <ellipse cx="-52" cy="4" rx="11" ry="16" transform="rotate(-52 -52 4)"/>
+            <ellipse cx="-52" cy="28" rx="11" ry="16" transform="rotate(-82 -52 28)"/>
+            <ellipse cx="-40" cy="46" rx="11" ry="16" transform="rotate(-112 -40 46)"/>
+            <ellipse cx="-22" cy="54" rx="11" ry="15" transform="rotate(-140 -22 54)"/>
+          </g>
+          <g fill="#d9a441" stroke="#3a2a1a" stroke-width="1.1">
+            <circle cx="-40" cy="-18" r="2.6"/><circle cx="-52" cy="4" r="2.6"/><circle cx="-52" cy="28" r="2.6"/>
+            <circle cx="-40" cy="46" r="2.6"/><circle cx="-22" cy="54" r="2.6"/>
+          </g>
+          <path d="M6 0 C-12 -8 -20 -22 -16 -38 C-6 -36 2 -26 6 -12 Z" fill="#2e3a5c" stroke="#3a2a1a" stroke-width="1.6"/>
+          <circle cx="-8" cy="-34" r="3.6" fill="#2e3a5c" stroke="#3a2a1a" stroke-width="1.4"/>
+          <path d="M-10 -38 L-9 -47 M-13 -36 L-18 -41 M-5 -35 L-1 -39" stroke="#3a2a1a" stroke-width="1.2"/>
+          <path d="M-2 -14 L-16 -8" stroke="#3a2a1a" stroke-width="1.4"/>
+          <circle cx="4" cy="-20" r="1.2" fill="#3a2a1a"/><circle cx="2" cy="-12" r="1" fill="#3a2a1a"/>
+        </g>
+
+        <!-- Kalamkari deer -->
+        <g id="deer-k">
+          <path d="M-38 -12 C-30 -30 -8 -34 6 -30 C22 -26 32 -16 34 -2 C34 10 26 16 18 16 L-20 16 C-32 14 -40 6 -38 -12 Z"
+                fill="#f4e9cf" stroke="#3a2a1a" stroke-width="2.2"/>
+          <path d="M20 -26 C28 -34 30 -44 26 -52 C24 -44 18 -40 14 -36 Z" fill="#f4e9cf" stroke="#3a2a1a" stroke-width="2"/>
+          <path d="M26 -52 L22 -66 M30 -50 L34 -60" stroke="#3a2a1a" stroke-width="1.5"/>
+          <path d="M32 -6 L34 26 M20 16 L20 34 M-4 16 L-6 34 M-24 16 L-26 34" stroke="#3a2a1a" stroke-width="2"/>
+          <circle cx="-12" cy="-4" r="2" fill="#3a2a1a"/><circle cx="0" cy="-10" r="2" fill="#3a2a1a"/><circle cx="12" cy="-4" r="2" fill="#3a2a1a"/>
+        </g>
+
+        <!-- WARLI symbols (white geometric) -->
+        <g id="warli-figure" fill="#f7f3e9">
+          <circle cx="0" cy="-50" r="7"/>
+          <polygon points="-11,-42 11,-42 0,-4"/>
+          <polygon points="-9,-6 9,-6 0,18"/>
+          <path d="M0,-36 L-20,-16 M0,-36 L20,-16" stroke="#f7f3e9" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M-6,14 L-10,28 M6,14 L10,28" stroke="#f7f3e9" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <g id="warli-musician" fill="#f7f3e9">
+          <circle cx="0" cy="-50" r="7"/>
+          <polygon points="-11,-42 11,-42 0,-4"/>
+          <polygon points="-9,-6 9,-6 0,18"/>
+          <path d="M0,-36 L-20,-16 M0,-36 L20,-16" stroke="#f7f3e9" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M-6,14 L-10,28 M6,14 L10,28" stroke="#f7f3e9" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M6,-38 L68,-34" stroke="#f7f3e9" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g id="warli-farmer" fill="#f7f3e9">
+          <circle cx="0" cy="-50" r="7"/>
+          <polygon points="-11,-42 11,-42 0,-4"/>
+          <polygon points="-9,-6 9,-6 0,18"/>
+          <path d="M0,-36 L-16,-10 M0,-36 L16,-10" stroke="#f7f3e9" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M-6,14 L-10,28 M6,14 L10,28" stroke="#f7f3e9" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M16,-10 L36,-2" stroke="#f7f3e9" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g id="warli-cow" fill="#f7f3e9">
+          <rect x="-36" y="-28" width="60" height="24"/>
+          <path d="M24 -28 L36 -44 L44 -44 L40 -26 Z"/>
+          <path d="M36 -44 L40 -54 M44 -44 L50 -52" stroke="#f7f3e9" stroke-width="2.5" fill="none"/>
+          <path d="M-28 -4 L-30 22 M-16 -4 L-18 22 M-4 -4 L-6 22 M8 -4 L6 22 M20 -4 L18 22" stroke="#f7f3e9" stroke-width="2.5"/>
+          <path d="M-40 -14 L-26 -14" stroke="#f7f3e9" stroke-width="2.5"/>
+        </g>
+        <g id="warli-hut" fill="#f7f3e9">
+          <rect x="-34" y="-30" width="68" height="44"/>
+          <polygon points="-42,-30 42,-30 0,-62"/>
+          <rect x="-8" y="-6" width="16" height="20" fill="#b05a2e"/>
+        </g>
+        <g id="warli-tree" stroke="#f7f3e9" stroke-width="3" fill="none">
+          <line x1="0" y1="0" x2="0" y2="-46"/>
+          <circle cx="0" cy="-58" r="20" fill="#f7f3e9" stroke="none"/>
+        </g>
+
+        <!-- Madhubani fish -->
+        <g id="fish-m">
+          <ellipse cx="0" cy="0" rx="34" ry="16" fill="#4a7bb5" stroke="#1c1c1c" stroke-width="2"/>
+          <path d="M34 0 L46 -10 L46 10 Z" fill="#4a7bb5" stroke="#1c1c1c" stroke-width="2"/>
+          <circle cx="-22" cy="-2" r="3" fill="#1c1c1c"/>
+          <path d="M-30 -8 Q-36 -16 -28 -19 M-30 8 Q-36 16 -28 19" fill="none" stroke="#1c1c1c" stroke-width="1.6"/>
+          <path d="M-12 -9 q6 12 0 20 M-2 -11 q6 14 0 25 M8 -10 q5 12 0 21 M18 -8 q4 10 0 17" fill="none" stroke="#1c1c1c" stroke-width="1.3"/>
+          <path d="M-20 4 q3 3 6 0" fill="none" stroke="#e9b23a" stroke-width="1.2"/>
+        </g>
+
+        <!-- Madhubani lotus -->
+        <g id="lotus-m" fill="#c22f2a" stroke="#1c1c1c" stroke-width="1.6">
+          <path d="M0 0 C -14 -2 -20 -12 -17 -24 C -8 -20 -3 -10 0 0 Z"/>
+          <path d="M0 0 C 14 -2 20 -12 17 -24 C 8 -20 3 -10 0 0 Z"/>
+          <path d="M0 0 C -4 -6 -1 -14 0 -19 C 1 -14 4 -6 0 0 Z" fill="#e9b23a"/>
+          <path d="M-18 -2 C -24 2 -26 8 -25 12 M18 -2 C 24 2 26 8 25 12" fill="none"/>
+        </g>
+
+        <!-- Madhubani peacock -->
+        <g id="peacock-m">
+          <g fill="#e9b23a" stroke="#1c1c1c" stroke-width="1.6">
+            <ellipse cx="-44" cy="-38" rx="12" ry="17" transform="rotate(-26 -44 -38)"/>
+            <ellipse cx="-56" cy="-14" rx="12" ry="17" transform="rotate(-58 -56 -14)"/>
+            <ellipse cx="-56" cy="12" rx="12" ry="17" transform="rotate(-90 -56 12)"/>
+            <ellipse cx="-44" cy="36" rx="12" ry="17" transform="rotate(-122 -44 36)"/>
+            <ellipse cx="-24" cy="50" rx="12" ry="17" transform="rotate(-150 -24 50)"/>
+          </g>
+          <g fill="#c22f2a">
+            <circle cx="-44" cy="-38" r="3"/><circle cx="-56" cy="-14" r="3"/><circle cx="-56" cy="12" r="3"/>
+            <circle cx="-44" cy="36" r="3"/><circle cx="-24" cy="50" r="3"/>
+          </g>
+          <path d="M0 0 C-16 -6 -24 -18 -20 -32 C-12 -30 -4 -22 -2 -12 Z" fill="#3e7a3a" stroke="#1c1c1c" stroke-width="2"/>
+          <circle cx="-11" cy="-34" r="4" fill="#3e7a3a" stroke="#1c1c1c" stroke-width="1.6"/>
+          <path d="M-11 -38 L-11 -46 M-15 -36 L-19 -40 M-7 -36 L-3 -40" stroke="#1c1c1c" stroke-width="1.4"/>
+          <path d="M-14 -14 L-28 -20" stroke="#1c1c1c" stroke-width="1.4"/>
+          <circle cx="-2" cy="-18" r="1.4" fill="#1c1c1c"/><circle cx="0" cy="-8" r="1.2" fill="#1c1c1c"/>
+        </g>
+      </defs>
+
+      <!-- ============ BASE (always visible) ============ -->
+      <rect x="0" y="0" width="1000" height="1300" fill="#f2e7cf"/>
+      <rect class="s-madhubani" x="30" y="30" width="940" height="1240" fill="url(#mband)"/>
+      <rect x="56" y="56" width="888" height="1188" fill="#f4e9cf"/>
+
+      <!-- ============ KALAMKARI LAYER ============ -->
+      <g class="s-kalamkari">
+        <rect x="20" y="20" width="960" height="1260" fill="none" stroke="#3a2a1a" stroke-width="5"/>
+        <rect x="30" y="30" width="940" height="1240" fill="none" stroke="#3a2a1a" stroke-width="1.5"/>
+        <use href="#kcorner" transform="translate(30 30)"/>
+        <use href="#kcorner" transform="translate(970 30) scale(-1 1)"/>
+        <use href="#kcorner" transform="translate(30 1270) scale(1 -1)"/>
+        <use href="#kcorner" transform="translate(970 1270) scale(-1 -1)"/>
+
+        <use href="#kcloud" transform="translate(120 84)"/>
+        <use href="#kcloud" transform="translate(700 92) scale(0.8)"/>
+        <use href="#kcloud" transform="translate(250 208) scale(0.7)"/>
+        <use href="#kcloud" transform="translate(640 222) scale(0.6)"/>
+        <use href="#kbird" transform="translate(150 184)"/>
+        <use href="#kbird" transform="translate(230 148) scale(0.8)"/>
+        <use href="#kbird" transform="translate(880 226) scale(0.9)"/>
+
+        <!-- tree -->
+        <g id="tree">
+          <path d="M477 1160 C 482 900 486 640 492 470 L 508 470 C 514 640 518 900 523 1160 Z"
+                fill="#f4e9cf" stroke="#3a2a1a" stroke-width="2.5"/>
+          <g id="gHatch"></g>
+          <g stroke="#3a2a1a" fill="none" stroke-linecap="round">
+            <path d="M492 520 C 440 500 390 540 350 580" stroke-width="9"/>
+            <path d="M508 520 C 560 500 610 540 650 580" stroke-width="9"/>
+            <path d="M500 480 C 500 420 500 380 500 340" stroke-width="8"/>
+            <path d="M350 580 C 335 555 326 538 322 512" stroke-width="5"/>
+            <path d="M350 580 C 336 592 330 602 328 614" stroke-width="5"/>
+            <path d="M650 580 C 665 555 674 538 678 512" stroke-width="5"/>
+            <path d="M650 580 C 664 592 670 602 672 614" stroke-width="5"/>
+            <path d="M500 400 C 480 384 472 372 468 358" stroke-width="5"/>
+            <path d="M500 400 C 520 384 528 372 532 358" stroke-width="5"/>
+            <path d="M500 340 C 484 322 478 310 474 296" stroke-width="4"/>
+            <path d="M500 340 C 516 322 522 310 526 296" stroke-width="4"/>
+            <path d="M468 358 C 452 352 442 342 436 326" stroke-width="2.5"/>
+            <path d="M532 358 C 548 352 558 342 564 326" stroke-width="2.5"/>
+          </g>
+          <g id="gLeaves"></g>
+          <use href="#lotus-k" transform="translate(322 512) scale(1.15)"/>
+          <use href="#lotus-k" transform="translate(678 512) scale(1.15)"/>
+          <use href="#lotus-k" transform="translate(468 358) scale(1.05)"/>
+          <use href="#lotus-k" transform="translate(532 358) scale(1.05)"/>
+          <use href="#lotus-k" transform="translate(500 296) scale(1.2)"/>
+          <use href="#lotus-k" transform="translate(328 614) scale(0.9)"/>
+          <use href="#lotus-k" transform="translate(672 614) scale(0.9)"/>
+          <use href="#peacock-k" transform="translate(356 548)"/>
+        </g>
+
+        <use href="#deer-k" transform="translate(556 1156)"/>
+        <use href="#deer-k" transform="translate(600 1166) scale(0.72)"/>
+      </g>
+
+      <!-- ============ WARLI LAYER ============ -->
+      <g class="s-warli">
+        <g transform="translate(830 150)">
+          <circle r="30" fill="#f7f3e9"/>
+          <g stroke="#f7f3e9" stroke-width="2.5">
+            <line x1="0" y1="-36" x2="0" y2="-44"/><line x1="0" y1="36" x2="0" y2="44"/>
+            <line x1="-36" y1="0" x2="-44" y2="0"/><line x1="36" y1="0" x2="44" y2="0"/>
+            <line x1="-26" y1="-26" x2="-32" y2="-32"/><line x1="26" y1="26" x2="32" y2="32"/>
+            <line x1="26" y1="-26" x2="32" y2="-32"/><line x1="-26" y1="26" x2="-32" y2="32"/>
+          </g>
+        </g>
+
+        <g id="gDance">
+          <use href="#warli-musician" transform="translate(335 1162) scale(1.05)"/>
+          <g id="danceSpin"></g>
+        </g>
+
+        <use href="#warli-hut" transform="translate(108 1202) scale(0.9)"/>
+        <use href="#warli-tree" transform="translate(190 1204) scale(0.9)"/>
+        <use href="#warli-cow" transform="translate(420 1206) scale(0.78)"/>
+        <use href="#warli-farmer" transform="translate(620 1206)"/>
+      </g>
+
+      <!-- ============ MADHUBANI LAYER ============ -->
+      <g class="s-madhubani">
+        <g transform="translate(500 150)">
+          <g id="gSunRays"></g>
+          <circle r="58" fill="#e9b23a" stroke="#1c1c1c" stroke-width="2.5"/>
+          <circle r="62" fill="none" stroke="#1c1c1c" stroke-width="1.4"/>
+          <circle cx="-20" cy="-8" r="5" fill="#1c1c1c"/>
+          <circle cx="20" cy="-8" r="5" fill="#1c1c1c"/>
+          <path d="M-14 12 Q0 22 14 12" fill="none" stroke="#1c1c1c" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="0" cy="-30" r="3" fill="#c22f2a"/>
+          <circle cx="-30" cy="0" r="3" fill="#c22f2a"/>
+          <circle cx="30" cy="0" r="3" fill="#c22f2a"/>
+        </g>
+
+        <g transform="translate(775 1120)">
+          <ellipse rx="115" ry="70" fill="#4a7bb5" stroke="#1c1c1c" stroke-width="2.5"/>
+          <path d="M-90 -30 Q-60 -44 -30 -30 M-20 -36 Q10 -50 40 -34 M50 -28 Q78 -40 96 -26"
+                fill="none" stroke="#1c1c1c" stroke-width="1.4" opacity="0.6"/>
+          <path d="M-90 26 Q-60 40 -30 26 M-20 32 Q10 46 40 32 M50 24 Q78 36 96 22"
+                fill="none" stroke="#1c1c1c" stroke-width="1.4" opacity="0.6"/>
+          <use href="#fish-m" transform="translate(-38 4) rotate(-8)"/>
+          <use href="#fish-m" transform="translate(40 6) rotate(172)"/>
+          <use href="#lotus-m" transform="translate(0 -30) scale(1.2)"/>
+          <use href="#lotus-m" transform="translate(-72 -6) scale(0.8)"/>
+        </g>
+
+        <use href="#peacock-m" transform="translate(858 1052) scale(0.78)"/>
+      </g>
+    </svg>
+
+    <div class="spots" id="hotspots"></div>
+  </div>
+
+  <div class="controls" id="controls" aria-label="Show or hide each painting style">
+    <button class="tbtn on" id="btnAll" style="--sc:#e0b45c"><span class="swatch"></span>Show all<span class="sw"></span></button>
+    <button class="tbtn on" data-style="warli" style="--sc:#f7f3e9"><span class="swatch"></span>Warli layer<span class="sw"></span></button>
+    <button class="tbtn on" data-style="kalamkari" style="--sc:#3a5a8f"><span class="swatch"></span>Kalamkari layer<span class="sw"></span></button>
+    <button class="tbtn on" data-style="madhubani" style="--sc:#c22f2a"><span class="swatch"></span>Madhubani layer<span class="sw"></span></button>
+  </div>
+  <p class="hint">✨ Use the switches to <b>peel the styles apart</b> and see exactly which element belongs to which tradition ·
+  hover the <b>glowing dots</b> on the painting for labels · click a dot to jump to its explanation below.</p>
+</div>
+
+<main class="wrap" style="padding:0 22px 60px">
+  <section>
+    <h2 class="sec-head">Artist's statement</h2>
+    <div class="statement">
+      <p><b>The Tree of Many Hands</b> fuses three regional grammars of Indian painting onto one canvas.
+      At its heart stands the <b>Kalamkari</b> Tree of Life — its trunk cross-hatched with fine pen strokes, its
+      branches tipped with paisley leaves and red lotus blooms, in the indigo, madder and mustard of natural dyes.</p>
+      <p>Around its roots, on terracotta earth, the <b>Warli</b> people dance their eternal tarpa spiral — geometric
+      white figures of circles and triangles — while a plain-circle moon watches over the night.</p>
+      <p>And radiating through the whole is <b>Madhubani</b> colour: a sun with a smiling face and bold rays,
+      double-outlined fish in a blue pond, a dot-patterned peacock, and a triangle border band that frames the
+      composition like a painted wall.</p>
+      <p>Three traditions, three ways of seeing — one story: that life is a circle, and art is its witness.</p>
+      <p class="sig">— Harsh Sanjay Tambekar, RA2411030010223</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-head">Three traditions, one canvas</h2>
+    <div class="styles">
+      <div class="style-card" style="--sc:#f7f3e9">
+        <h3>Warli</h3>
+        <div class="where">Maharashtra · tribal wall art</div>
+        <p>White geometric figures of circles, triangles and squares painted on terracotta-ochre mud walls.
+        Signature motifs: the tarpa dance spiral, stick-figure people, huts, and the cycle of nature.</p>
+      </div>
+      <div class="style-card" style="--sc:#3a5a8f">
+        <h3>Kalamkari</h3>
+        <div class="where">Andhra Pradesh · pen &amp; natural dyes</div>
+        <p>Fine pen (kalam) drawing coloured with natural indigo, madder red and mustard yellow.
+        Signature motifs: the Tree of Life, peacocks, paisley leaves, lotus and stippled detail.</p>
+      </div>
+      <div class="style-card" style="--sc:#c22f2a">
+        <h3>Madhubani</h3>
+        <div class="where">Bihar (Mithila) · wall-to-paper art</div>
+        <p>Bold double outlines, dense patterning and bright mineral colour. Signature motifs: a radiant sun
+        with a face, fish, peacocks, lotus, and patterned border bands.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-head">What came from where</h2>
+    <div class="emap" id="emap"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-art">The Tree of Many Hands</div>
+  <div>A fusion artwork by <span class="name">Harsh Sanjay Tambekar</span> · Reg. No. <span class="name">RA2411030010223</span></div>
+  <div style="margin-top:4px;opacity:.7">Course: Indian Art Forms · Warli × Kalamkari × Madhubani</div>
+</footer>
+
+<script>
+/* ============================================================
+   STYLE META
+============================================================ */
+const STYLE_COLORS = { warli:"#f7f3e9", kalamkari:"#3a5a8f", madhubani:"#c22f2a" };
+
+/* seeded random (deterministic so the painting never changes) */
+function seeded(seed){ return function(){ seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
+const rnd = seeded(20260912);
+
+/* ============================================================
+   GENERATE — Warli tarpa dance spiral
+============================================================ */
+function buildDance(){
+  const cx = 335, cy = 1162, R = 66, n = 14;
+  let parts = [`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#f7f3e9" stroke-width="2.5" opacity="0.85"/>`];
+  for (let i = 0; i < n; i++){
+    const a = i / n * Math.PI * 2;
+    const px = cx + R * Math.cos(a), py = cy + R * Math.sin(a);
+    const deg = a * 180 / Math.PI - 90;
+    parts.push(`<use href="#warli-figure" transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${deg.toFixed(1)})"/>`);
+  }
+  parts.push(`<animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${cy}" to="360 ${cx} ${cy}" dur="90s" repeatCount="indefinite"/>`);
+  document.getElementById('danceSpin').innerHTML = parts.join('');
+}
+
+/* ============================================================
+   GENERATE — trunk hatching
+============================================================ */
+function buildHatch(){
+  let parts = [];
+  for (let x = 489; x <= 511; x += 4){
+    parts.push(`<line x1="${x}" y1="660" x2="${x}" y2="1130" stroke="#3a2a1a" stroke-width="1" opacity="0.45"/>`);
+  }
+  document.getElementById('gHatch').innerHTML = parts.join('');
+}
+
+/* ============================================================
+   GENERATE — Kalamkari canopy (paisley leaves + berries)
+============================================================ */
+function buildLeaves(){
+  const parts = [];
+  const cx = 500, cy = 470, rx = 300, ry = 230;
+  for (let i = 0; i < 48; i++){
+    const ang = rnd() * Math.PI * 2;
+    const rr = Math.sqrt(rnd());
+    const x = cx + Math.cos(ang) * rx * rr;
+    const y = cy + Math.sin(ang) * ry * rr;
+    if (y < 236 || y > 700) continue;
+    if (Math.abs(x - 500) < 26 && y > 470) continue;      // keep trunk clear
+    const deg = Math.atan2(y - cy, x - cx) * 180 / Math.PI;
+    const s = 0.55 + rnd() * 0.9;
+    parts.push(`<use href="#leaf-k" transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) rotate(${deg.toFixed(0)}) scale(${s.toFixed(2)})"/>`);
+  }
+  for (let i = 0; i < 26; i++){
+    const ang = rnd() * Math.PI * 2, rr = Math.sqrt(rnd());
+    const x = cx + Math.cos(ang) * rx * rr, y = cy + Math.sin(ang) * ry * rr;
+    if (y < 236 || y > 690) continue;
+    const col = i % 2 ? "#a33b2e" : "#2e3a5c";
+    parts.push(`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${(1.6 + rnd()*1.8).toFixed(1)}" fill="${col}"/>`);
+  }
+  document.getElementById('gLeaves').innerHTML = parts.join('');
+}
+
+/* ============================================================
+   GENERATE — Madhubani sun rays
+============================================================ */
+function buildRays(){
+  const parts = [];
+  for (let i = 0; i < 14; i++){
+    const a = i / 14 * Math.PI * 2;
+    const a2 = (i + 0.5) / 14 * Math.PI * 2;
+    const col = i % 2 ? "#c22f2a" : "#e9b23a";
+    const x1 = Math.cos(a) * 60, y1 = Math.sin(a) * 60;
+    const x2 = Math.cos(a) * 92, y2 = Math.sin(a) * 92;
+    const x3 = Math.cos(a2) * 78, y3 = Math.sin(a2) * 78;
+    parts.push(`<polygon points="${x1.toFixed(1)},${y1.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)} ${x3.toFixed(1)},${y3.toFixed(1)}" fill="${col}" stroke="#1c1c1c" stroke-width="1.6"/>`);
+  }
+  document.getElementById('gSunRays').innerHTML = parts.join('');
+}
+
+/* ============================================================
+   ELEMENT MAP + HOTSPOTS
+============================================================ */
+const ELEMENTS = [
+  { id:"em-border",  style:"kalamkari", title:"A border in three grammars",
+    text:"Outer pen frame (Kalamkari), a bright triangle band (Madhubani) and corner paisley flourishes (Kalamkari) — three hands already meeting at the edge." },
+  { id:"em-tree",    style:"kalamkari", title:"Tree of Life",
+    text:"The central tree, its trunk cross-hatched in fine kalam pen strokes and its branches tipped with paisley leaves and red lotus." },
+  { id:"em-peacock", style:"kalamkari", title:"Peacock & fine pen-work",
+    text:"A Kalamkari peacock with indigo body and paisley-tipped tail, drawn with the fine pen line and natural-dye colours." },
+  { id:"em-deer",    style:"kalamkari", title:"Deer at the roots",
+    text:"Stippled, fine-lined deer rest at the tree's base — a classic Kalamkari forest detail." },
+  { id:"em-dance",   style:"warli", title:"The tarpa dance spiral",
+    text:"White geometric figures — two triangles and a circle head — spiral around a musician playing the tarpa. It slowly revolves, like the dance itself." },
+  { id:"em-hut",     style:"warli", title:"Hut, farmer & cow",
+    text:"A triangle-roofed hut, a farmer with a stick and a cow — the daily life of the Warli world, drawn in plain white geometry." },
+  { id:"em-moon",    style:"warli", title:"The plain-circle moon",
+    text:"A simple white circle with short rays — Warli's elemental sun-and-moon vocabulary." },
+  { id:"em-sun",     style:"madhubani", title:"Radiant sun with a face",
+    text:"A smiling, double-outlined sun with bold alternating red-and-yellow rays — Madhubani's life-giving centre." },
+  { id:"em-fish",    style:"madhubani", title:"Double-outline fish & pond",
+    text:"Paired fish with dotted scales and a red lotus float in a deep-blue pond, bordered with double lines." },
+  { id:"em-mpeacock",style:"madhubani", title:"Dot-patterned peacock",
+    text:"A green peacock whose fan tail is filled with dot-centres — Madhubani's love of dense, patterned surface." }
+];
+
+const HOTSPOTS = [
+  { x:3.2,  y:2.5,  target:"em-border",  style:"kalamkari", label:"The three-style border" },
+  { x:50,   y:11.5, target:"em-sun",     style:"madhubani", label:"Madhubani sun" },
+  { x:83,   y:11.5, target:"em-moon",    style:"warli",     label:"Warli moon" },
+  { x:35.2, y:42.8, target:"em-peacock", style:"kalamkari", label:"Kalamkari peacock" },
+  { x:50,   y:53.8, target:"em-tree",    style:"kalamkari", label:"Tree of Life (Kalamkari)" },
+  { x:68,   y:40,   target:"em-tree",    style:"kalamkari", label:"Paisley leaves & lotus" },
+  { x:33.5, y:89.4, target:"em-dance",   style:"warli",     label:"Warli tarpa dance" },
+  { x:10.8, y:92.5, target:"em-hut",     style:"warli",     label:"Warli hut & cow" },
+  { x:55.2, y:88.9, target:"em-deer",    style:"kalamkari", label:"Kalamkari deer" },
+  { x:77.5, y:86.2, target:"em-fish",    style:"madhubani", label:"Madhubani pond & fish" },
+  { x:85.8, y:80.9, target:"em-mpeacock",style:"madhubani", label:"Madhubani peacock" }
+];
+
+function buildElementMap(){
+  document.getElementById('emap').innerHTML = ELEMENTS.map(e =>
+    `<div class="row" id="${e.id}">
+       <span class="chip" style="--sc:${STYLE_COLORS[e.style]}">${e.style}</span>
+       <div><h4>${e.title}</h4><p>${e.text}</p></div>
+     </div>`).join('');
+}
+
+function buildHotspots(){
+  document.getElementById('hotspots').innerHTML = HOTSPOTS.map(h =>
+    `<button class="spot" data-target="${h.target}" data-style="${h.style}" style="--sc:${STYLE_COLORS[h.style]};left:${h.x}%;top:${h.y}%" aria-label="${h.label}">
+       <span class="dot"></span><span class="tip">${h.label}</span>
+     </button>`).join('');
+  document.querySelectorAll('.spot').forEach(s => {
+    s.addEventListener('click', () => {
+      const row = document.getElementById(s.dataset.target);
+      if (row){
+        row.scrollIntoView({ behavior:'smooth', block:'center' });
+        row.classList.add('flash');
+        setTimeout(() => row.classList.remove('flash'), 1600);
+      }
+    });
+  });
+}
+
+/* ============================================================
+   LAYER TOGGLES
+============================================================ */
+function syncToggles(){
+  const svg = document.getElementById('art');
+  const warli = document.querySelector('button[data-style="warli"]').classList.contains('on');
+  const kala  = document.querySelector('button[data-style="kalamkari"]').classList.contains('on');
+  const madhu = document.querySelector('button[data-style="madhubani"]').classList.contains('on');
+  svg.classList.toggle('no-warli', !warli);
+  svg.classList.toggle('no-kalamkari', !kala);
+  svg.classList.toggle('no-madhubani', !madhu);
+  document.querySelectorAll('.spot').forEach(s => {
+    const on = { warli, kalamkari:kala, madhubani:madhu }[s.dataset.style];
+    s.classList.toggle('off', !on);
+  });
+  const all = warli && kala && madhu;
+  document.getElementById('btnAll').classList.toggle('on', all);
+}
+
+function bindToggles(){
+  document.getElementById('btnAll').addEventListener('click', () => {
+    document.querySelectorAll('button[data-style]').forEach(b => b.classList.add('on'));
+    syncToggles();
+  });
+  document.querySelectorAll('button[data-style]').forEach(b => {
+    b.addEventListener('click', () => {
+      b.classList.toggle('on');
+      syncToggles();
+    });
+  });
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+buildHatch();
+buildLeaves();
+buildDance();
+buildRays();
+buildElementMap();
+buildHotspots();
+bindToggles();
+syncToggles();
+</script>
+</body>
+</html>
