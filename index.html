@@ -160,39 +160,62 @@
   .photo .spot:hover .dot{background:#fff;animation:none}
   @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
 
-  /* ---------- MODAL ---------- */
-  .overlay{
-    position:fixed;inset:0;background:rgba(5,5,9,.78);backdrop-filter:blur(5px);
-    display:none;align-items:center;justify-content:center;z-index:100;padding:22px;
+  /* ---------- SPLIT LAYOUT & MODAL ---------- */
+  .split-layout {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    padding-bottom: 60px;
   }
-  .overlay.open{display:flex}
-  .modal{
-    position:relative;
-    background:linear-gradient(180deg,#1c1c28,#13131d);
-    border:1px solid #34344a;border-radius:20px;width:min(1000px,100%);
-    height:min(86vh,860px);
-    overflow:hidden;display:grid;grid-template-columns:1fr 1.05fr;
-    grid-template-rows:minmax(0,1fr);
-    animation:pop .28s ease;
+  .timeline-pane {
+    flex: 1 1 55%;
+    min-width: 0;
+  }
+  .overlay {
+    flex: 0 0 42%;
+    position: sticky;
+    top: 90px;
+    height: calc(100vh - 120px);
+    display: block;
+  }
+  .modal {
+    position: relative;
+    background: linear-gradient(180deg,#1c1c28,#13131d);
+    border: 1px solid #34344a;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: pop .28s ease;
   }
   @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
-  .modal .stage{
-    position:relative;background:radial-gradient(circle at 50% 42%, #23232f, #0e0e16);
-    display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:0;
+  .modal .stage {
+    position: relative;
+    background: radial-gradient(circle at 50% 42%, #23232f, #0e0e16);
+    flex: 0 0 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 250px;
   }
   .modal .stage .zoomwrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .25s ease;overflow:hidden}
   .modal .stage .photo{position:relative;overflow:hidden}
-  .zoombar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:rgba(10,10,16,.8);border:1px solid #333;border-radius:999px;padding:7px 10px;backdrop-filter:blur(4px)}
+  .zoombar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:rgba(10,10,16,.8);border:1px solid #333;border-radius:999px;padding:7px 10px;backdrop-filter:blur(4px); z-index:10;}
   .zoombar button{background:#262636;color:var(--text);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.05rem;line-height:1;transition:.15s}
   .zoombar button:hover{background:var(--gold);color:#111}
   .zoombar .zl{font-size:.75rem;color:var(--muted);display:flex;align-items:center;min-width:42px;justify-content:center}
-  .modal .info{padding:26px 28px;overflow-y:auto;min-height:0;overscroll-behavior:contain}
-  .modal .close{
-    position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
-    background:rgba(20,20,28,.85);border:1px solid #3a3a4d;color:var(--text);
-    font-size:1.2rem;cursor:pointer;z-index:5;transition:.2s;
+  
+  .modal .info {
+    padding: 26px 28px;
+    flex: 1 1 55%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
-  .modal .close:hover{background:var(--gold);color:#111}
+  .modal .close { display: none; }
+  
   .modal .era-tag{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--era,var(--gold));border:1px solid var(--era,var(--gold));border-radius:999px;padding:4px 12px;margin-bottom:12px}
   .modal h3.name{font-family:Georgia,serif;font-size:1.75rem;color:var(--gold-2);line-height:1.15;margin-bottom:6px}
   .modal .tagline{color:var(--muted);font-style:italic;margin-bottom:16px}
@@ -205,7 +228,7 @@
   .navbtns{display:flex;gap:10px;margin-top:20px}
   .navbtns button{flex:1;background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:10px;border-radius:12px;cursor:pointer;font-size:.85rem;transition:.2s}
   .navbtns button:hover{border-color:var(--gold);color:var(--gold-2)}
-  .stage .hotspot-note{position:absolute;top:12px;left:12px;font-size:.7rem;color:#8b8796;background:rgba(10,10,16,.6);padding:4px 10px;border-radius:999px}
+  .stage .hotspot-note{position:absolute;top:12px;left:12px;font-size:.7rem;color:#8b8796;background:rgba(10,10,16,.6);padding:4px 10px;border-radius:999px; z-index:10;}
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -216,9 +239,28 @@
 
   /* responsive */
   @media (max-width:840px){
-    .modal{grid-template-columns:1fr;height:auto;max-height:94vh;overflow-y:auto;display:block}
-    .modal .stage{min-height:320px;height:360px}
-    .modal .info{overflow:visible;min-height:0}
+    .split-layout { display: block; }
+    .timeline-pane { padding: 0 22px; }
+    .overlay {
+      position: fixed; inset: 0; background: rgba(5,5,9,.78); backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center; z-index: 100; padding: 22px;
+      height: auto; top: 0; flex: none;
+    }
+    .overlay.open { display: flex; }
+    .modal {
+      width: min(1000px,100%);
+      height: min(86vh,860px);
+      display: block;
+      overflow-y: auto;
+    }
+    .modal .stage { height: 360px; flex: none; }
+    .modal .info { overflow: visible; flex: none; }
+    .modal .close { 
+      display: block; position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; 
+      border-radius: 50%; background: rgba(20,20,28,.85); border: 1px solid #3a3a4d; 
+      color: var(--text); font-size: 1.2rem; cursor: pointer; z-index: 5; transition:.2s;
+    }
+    .modal .close:hover{background:var(--gold);color:#111}
     .cards{grid-template-columns:1fr}
   }
   .hidden{display:none !important}
@@ -254,19 +296,13 @@
   <p class="hint">✨ Click any <b>artefact</b> to open its dossier · hover the <b>glowing dots</b> on a photograph for labelled details · use <b>← →</b> to move between artefacts and <b>Esc</b> to close.</p>
 </div>
 
-<main class="wrap" id="timeline"></main>
-
-<footer>
-  <div class="foot-art">The Living Timeline of Indian Art</div>
-  <div>Created by <span class="name">Harsh Sanjay Tambekar</span> · Reg. No. <span class="name">RA2411030010223</span></div>
-  <div style="margin-top:4px;opacity:.7">Course: Indian Art Forms · An interactive digital timeline assignment</div>
-</footer>
-
-<!-- MODAL -->
-<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Artefact dossier">
+<div class="wrap split-layout">
+  <main class="timeline-pane" id="timeline"></main>
+  
+  <div class="overlay" id="overlay" role="region" aria-label="Artefact dossier">
   <div class="modal">
     <button class="close" id="modalClose" aria-label="Close">✕</button>
-    <div class="stage">
+    <div class="stage" id="stageContent" style="display:none;">
       <div class="hotspot-note">hover the glowing dots on the photograph</div>
       <div class="zoomwrap" id="zoomWrap"></div>
       <div class="zoombar">
@@ -276,7 +312,10 @@
         <button id="zoomReset" aria-label="Reset zoom">↺</button>
       </div>
     </div>
-    <div class="info" id="modalInfo"></div>
+    <div class="stage" id="stageEmpty" style="flex:1; display:flex; align-items:center; justify-content:center;">
+        <div style="color:var(--muted); text-align:center; padding: 40px; font-style:italic;">Select an artefact from the timeline to view its dossier.</div>
+      </div>
+      <div class="info" id="modalInfo" style="display:none;"></div>
   </div>
 </div>
 
@@ -601,12 +640,18 @@ function applyZoom(){
 }
 
 function openModal(id){
-  currentId = id;
-  const a = ARTIFACTS.find(x => x.id === id);
-  const e = eraById(a.era);
-  zoomIdx = 2;
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
+    currentId = id;
+    const a = ARTIFACTS.find(x => x.id === id);
+    const e = eraById(a.era);
+    zoomIdx = 2;
+    if(window.innerWidth <= 840) {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    document.getElementById('stageEmpty').style.display = 'none';
+    document.getElementById('stageContent').style.display = 'flex';
+    document.getElementById('modalInfo').style.display = 'block';
 
   renderPhoto(a);
   applyZoom();
@@ -645,10 +690,21 @@ function step(dir){
 }
 
 function closeModal(){
-  overlay.classList.remove('open');
-  document.body.style.overflow = '';
-  currentId = null;
-}
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    
+    // On desktop, clear the view
+    if(window.innerWidth > 840) {
+      currentId = null;
+      document.getElementById('stageEmpty').style.display = 'flex';
+      document.getElementById('stageContent').style.display = 'none';
+      document.getElementById('modalInfo').style.display = 'none';
+      document.getElementById('modalInfo').innerHTML = '';
+      document.getElementById('zoomWrap').innerHTML = '';
+    } else {
+      currentId = null;
+    }
+  }
 
 /* ============================================================
    EVENTS
